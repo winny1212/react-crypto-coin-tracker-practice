@@ -31,7 +31,7 @@ const CoinListTable = () => {
 
   return (
     <Grid style={{ textAlign: 'center' }}>
-      <Typography variant='h4' style={{ margin: 18, fontFamily: 'Montserrat' }}>
+      <Typography variant='h4' style={{ margin: 18 }}>
         Cryptocurrency Prices by Market Cap
       </Typography>
       <TextField
@@ -46,14 +46,14 @@ const CoinListTable = () => {
           <CircularProgress color='success' />
         ) : (
           <Table aria-label='simple table'>
-            <TableHead style={{ backgroundColor: '#EEBC1D' }}>
+            <TableHead style={{ backgroundColor: '#cbcbcf' }}>
               <TableRow>
-                {['Coin', 'Price', '24h Change', 'Market Cap'].map((head) => (
+                {['Coin', 'Price', '24h', 'Mkt Cap'].map((head) => (
                   <TableCell
                     style={{
                       color: 'black',
                       fontWeight: '700',
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Urbanist',
                     }}
                     key={head}
                     align={head === 'Coin' ? '' : 'right'}

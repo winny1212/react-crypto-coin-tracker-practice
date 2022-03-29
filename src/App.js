@@ -5,6 +5,13 @@ import Header from './components/Header';
 import SingleCoinDetails from './pages/SingleCoinDetails';
 import Homepage from './pages/Homepage';
 
+const useStyles = makeStyles(() => ({
+  container: {
+    minHeight: '100vh',
+    backgroundColor: 'rgb(25, 25, 48)',
+    color: 'white',
+  },
+}));
 const App = () => {
   const classes = useStyles();
 

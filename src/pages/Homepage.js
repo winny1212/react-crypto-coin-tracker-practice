@@ -1,7 +1,8 @@
 import React from 'react';
+import CoinListTable from '../components/CoinListTable';
 
 const Homepage = () => {
-  return <div>homepage</div>;
+  return <CoinListTable />;
 };
 
 export default Homepage;

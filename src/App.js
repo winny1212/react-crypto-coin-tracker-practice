@@ -8,8 +8,8 @@ import Homepage from './pages/Homepage';
 const useStyles = makeStyles(() => ({
   container: {
     minHeight: '100vh',
-    backgroundColor: 'rgb(25, 25, 48)',
-    color: 'white',
+    backgroundColor: 'rgb(228, 228, 235)',
+    color: 'black',
   },
 }));
 const App = () => {

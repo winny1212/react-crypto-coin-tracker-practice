@@ -17,6 +17,7 @@ import {
   Paper,
 } from '@mui/material';
 import { CoinList } from '../agent';
+import { Pagination } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   row: {
@@ -34,6 +35,7 @@ const CoinListTable = () => {
   const history = useHistory();
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -90,7 +92,7 @@ const CoinListTable = () => {
             </TableHead>
 
             <TableBody>
-              {coins.map((coin) => {
+              {coins.slice((page - 1) * 8, (page - 1) * 10 + 10).map((coin) => {
                 const rate = coin.price_change_percentage_24h;
                 return (
                   <TableRow
@@ -147,6 +149,21 @@ const CoinListTable = () => {
           </Table>
         )}
       </TableContainer>
+
+      <Pagination
+        count={(handleSearch()?.length / 10).toFixed(0)}
+        style={{
+          padding: 20,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+        // classes={{ ul: classes.pagination }}
+        onChange={(_, value) => {
+          setPage(value);
+          window.scroll(0, 300);
+        }}
+      />
     </Grid>
   );
 };

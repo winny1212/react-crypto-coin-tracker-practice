@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import Header from './components/Header';
-import SingleCoinDetails from './pages/SingleCoinDetails';
-import Homepage from './pages/Homepage';
+import SingleCoinDetails from './views/SingleCoinDetails';
+import Homepage from './views/Homepage';
 
 const useStyles = makeStyles(() => ({
   container: {

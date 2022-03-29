@@ -16,7 +16,7 @@ import {
   Table,
   Paper,
 } from '@mui/material';
-import { CoinList } from '../agent';
+import { getCoinList } from '../agent';
 import { Pagination } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,7 @@ const CoinListTable = () => {
 
   useEffect(() => {
     axios
-      .get(CoinList)
+      .get(getCoinList)
       .then((res) => {
         setCoins(res.data);
         // console.log(res.data);

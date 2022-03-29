@@ -1,11 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { makeStyles } from '@mui/styles';
+import Header from './components/Header';
+import SingleCoinDetails from './pages/SingleCoinDetails';
+import Homepage from './pages/Homepage';
 
 const App = () => {
-  return (
-    <div >
-          The basic empty template
-    </div>
-  )
-}
+  const classes = useStyles();
 
-export default App
+  return (
+    <div className={classes.container}>
+      <Header />
+      <Switch>
+        <Route path='/' component={Homepage} exact />
+        <Route path='/coins/:id' component={SingleCoinDetails} exact />
+      </Switch>
+    </div>
+  );
+};
+
+export default App;

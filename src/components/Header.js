@@ -86,55 +86,6 @@ function Header() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button
-            aria-describedby={id}
-            variant='contained'
-            onClick={handleClick}
-          >
-            Open Popover
-            <IconButton
-              size='large'
-              edge='start'
-              color='inherit'
-              aria-label='open drawer'
-              sx={{ mr: 2 }}
-            >
-              <Star />
-            </IconButton>
-          </Button>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            open={open}
-          >
-            <MenuItem
-              onClick={() => {
-                setShowFavorites(false);
-                setAnchorEl(null);
-              }}
-            >
-              Show all
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setShowFavorites(true);
-                setAnchorEl(null);
-              }}
-            >
-              My favorites
-            </MenuItem>
-          </Popover>
         </Toolbar>
       </AppBar>
     </Box>

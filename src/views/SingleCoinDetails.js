@@ -8,6 +8,7 @@ import { Typography } from '@mui/material';
 
 import { getSingleCoin } from '../agent';
 import { Button } from '@mui/material';
+import CoinChart from '../components/CoinChart';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -105,6 +106,7 @@ const SingleCoinDetails = () => {
           </Button>
         </Typography>
       </div>
+      <CoinChart coin={coin} />
     </div>
   );
 };

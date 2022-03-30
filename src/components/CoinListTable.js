@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 //import from material-ui
 import {
+  Grid,
   Container,
   TableCell,
   CircularProgress,
@@ -16,22 +17,21 @@ import {
   Paper,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { ArrowDropUpIcon, ArrowDropDownIcon } from '@mui/icons-material';
 //get coin list API
 import { getCoinList } from '../agent';
+// context for global search value state management
 import { useAppContext } from '../context/appContext';
 
 const useStyles = makeStyles(() => ({
   container: {
     textAlign: 'center',
   },
-  table: {
-    width: '80%',
-    display: 'flex',
-    justifyContent: 'center',
-  },
+
   tableHead: {
     backgroundColor: '#34ee34',
+    color: 'black',
+    fontWeight: '700',
+    fontFamily: 'Urbanist',
   },
   title: {
     color: '#34ee34',
@@ -40,13 +40,29 @@ const useStyles = makeStyles(() => ({
     padding: '0.8em',
     cursor: 'pointer',
   },
-  row: {
-    backgroundColor: '#16171a',
+  coin: {
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: '#131111',
+      backgroundColor: '#baf0ba',
     },
     fontFamily: 'Montserrat',
+  },
+  coinSymbol: {
+    fontSize: 18,
+    textTransform: 'uppercase',
+  },
+  coinName: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  pagination: {
+    padding: 20,
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    '& .MuiPaginationItem-root': {
+      color: '#34ee34',
+    },
   },
 }));
 
@@ -58,7 +74,8 @@ const CoinListTable = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  // const [search, setSearch] = useState('');
+
+  //destruction initial search value from context
   const { search } = useAppContext();
 
   //search function
@@ -70,7 +87,9 @@ const CoinListTable = () => {
         coin.symbol.toLowerCase().includes(search)
     );
   };
-  //function for get coin list from API
+  //function for get coin list from API:
+  //if the search value is empty, get all coins,
+  //if the search value exist, get the relative coins matched with the search value
   useEffect(() => {
     if (search === '') {
       axios
@@ -78,131 +97,124 @@ const CoinListTable = () => {
         .then((res) => {
           setLoading(false);
           setCoins(res.data);
-          // console.log(res.data);
         })
         .catch((error) => console.error('Error'));
     } else {
-      const ss = handleSearch();
-      setCoins(ss);
-      console.log(ss);
+      const searchValue = handleSearch();
+      setCoins(searchValue);
     }
   }, [search]);
 
   return (
     <Container style={{ textAlign: 'center' }}>
-      <Typography variant='h4' className={classes.title}>
-        Cryptocurrency Prices by Market Cap
-      </Typography>
+      <Grid>
+        <Typography variant='h4' className={classes.title}>
+          Cryptocurrency Prices by Market Cap
+        </Typography>
+      </Grid>
 
-      <TableContainer component={Paper} className={classes.table}>
-        {loading ? (
-          <CircularProgress color='success' />
-        ) : (
-          // table import from material-ui
-          <Table aria-label='simple table'>
-            {/* head */}
-            <TableHead className={classes.tableHead}>
-              <TableRow>
-                {['Coin', 'Price ($)', '24h', 'Mkt Cap ($)'].map((head) => (
-                  <TableCell
-                    style={{
-                      color: 'black',
-                      fontWeight: '700',
-                      fontFamily: 'Urbanist',
-                    }}
-                    key={head}
-                    align={head === 'Coin' ? '' : 'right'}
-                  >
-                    {head}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-
-            {/* body */}
-            <TableBody>
-              {coins.slice((page - 1) * 8, (page - 1) * 10 + 10).map((coin) => {
-                const rate = coin.price_change_percentage_24h;
-                return (
-                  <TableRow
-                    onClick={() => history.push(`/coins/${coin.id}`)}
-                    className={classes.coin}
-                    key={coin.name}
-                  >
-                    {/* coin name and icon */}
+      {/* table import from material-ui */}
+      <Grid>
+        <TableContainer component={Paper} className={classes.table}>
+          {loading ? (
+            <CircularProgress color='success' />
+          ) : (
+            <Table aria-label='simple table'>
+              {/* table head */}
+              <TableHead className={classes.tableHead}>
+                <TableRow>
+                  {['Coin', 'Price ($)', '24h', 'Mkt Cap ($)'].map((head) => (
                     <TableCell
-                      component='th'
-                      scope='coin'
-                      style={{
-                        display: 'flex',
-                        gap: 15,
-                      }}
+                      style={{}}
+                      key={head}
+                      align={head === 'Coin' ? '' : 'right'}
                     >
-                      <img
-                        src={coin?.image}
-                        alt={coin.name}
-                        height='50'
-                        style={{ marginBottom: 10 }}
-                      />
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span
+                      {head}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+
+              {/* table body */}
+              <TableBody>
+                {coins
+                  .slice((page - 1) * 8, (page - 1) * 10 + 10)
+                  .map((coin) => {
+                    const { id, image, current_price, name, total_volume } =
+                      coin;
+                    const rate = coin.price_change_percentage_24h;
+                    return (
+                      <TableRow
+                        onClick={() => history.push(`/coins/${id}`)}
+                        className={classes.coin}
+                        key={name}
+                      >
+                        {/* coin image,name and icon */}
+                        <TableCell
+                          component='th'
+                          scope='coin'
                           style={{
-                            textTransform: 'uppercase',
-                            fontSize: 22,
+                            display: 'flex',
+                            gap: 15,
                           }}
                         >
-                          {coin.symbol}
-                        </span>
-                        <span style={{ color: 'darkgrey' }}>{coin.name}</span>
-                      </div>
-                    </TableCell>
+                          <img
+                            src={image}
+                            alt={name}
+                            height='40'
+                            style={{ marginBottom: 5 }}
+                          />
+                          <div className={classes.coinName}>
+                            <span className={classes.coinSymbol}>
+                              {coin.symbol}
+                            </span>
+                            <span style={{ color: 'darkgrey' }}>
+                              {coin.name}
+                            </span>
+                          </div>
+                        </TableCell>
 
-                    {/* coin price */}
-                    <TableCell align='right'>
-                      {console.log(coin.current_price)}
-                      {coin.current_price.toFixed(2)}
-                    </TableCell>
+                        {/* coin price */}
+                        <TableCell align='right'>
+                          {current_price.toFixed(2)}
+                        </TableCell>
 
-                    {/* coin rate */}
-                    <TableCell
-                      align='right'
-                      style={{
-                        color: rate > 0 ? '#008000' : '#ff0000',
-                        fontWeight: 500,
-                      }}
-                    >
-                      {rate > 0 ? '+' : ''}
-                      {coin.price_change_percentage_24h.toFixed(2)}%
-                    </TableCell>
+                        {/* coin rate */}
+                        <TableCell
+                          align='right'
+                          style={{
+                            color: rate > 0 ? '#008000' : '#ff0000',
+                            fontWeight: 500,
+                          }}
+                        >
+                          {rate > 0 ? '+' : ''}
+                          {rate.toFixed(2)}%
+                        </TableCell>
 
-                    {/* coin market cap */}
-                    <TableCell align='right'>
-                      {coin.total_volume.toLocaleString()}M
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        )}
-      </TableContainer>
+                        {/* coin market cap */}
+                        <TableCell align='right'>
+                          {total_volume.toLocaleString()}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          )}
+        </TableContainer>
+      </Grid>
 
       {/* pagination */}
-      <Pagination
-        count={(coins.length / 10).toFixed(0)}
-        style={{
-          backgroundColor: 'white',
-          padding: 20,
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-        // classes={{ ul: classes.pagination }}
-        onChange={(_, value) => {
-          setPage(value);
-          window.scroll(0, 300);
-        }}
-      />
+      <Grid className={classes.pagination}>
+        {/* 10 coins are displayed each page */}
+        <Pagination
+          count={(coins.length / 10).toFixed(0)}
+          onChange={(_, value) => {
+            setPage(value);
+            window.scroll(0, 300);
+          }}
+        />
+      </Grid>
     </Container>
   );
 };

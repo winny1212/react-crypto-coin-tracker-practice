@@ -15,7 +15,8 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer',
   },
 }));
-//search styling imported from material-ui
+
+//search styling imported from material-ui + custom styling
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,

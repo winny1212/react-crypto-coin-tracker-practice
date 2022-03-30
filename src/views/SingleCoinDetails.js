@@ -63,6 +63,11 @@ const SingleCoinDetails = () => {
     fetchCoin();
   }, []);
   console.log(coin);
+
+  function showhtml(htmlString) {
+    var html = { __html: htmlString };
+    return <div dangerouslySetInnerHTML={html}></div>;
+  }
   // useEffect(() => {
   //   const { data } = async () => {
   //     await axios.get(getSingleCoin(id));
@@ -71,45 +76,55 @@ const SingleCoinDetails = () => {
   //   };
   // }, []);
   // console.log(coin);
-  if (!coin) return <CircularProgress color='success' />;
-  return (
-    <div className={classes.container}>
-      <div className={classes.sidebar}>
-        <img
-          src={coin?.image.large}
-          alt={coin?.name}
-          height='200'
-          style={{ marginBottom: 20 }}
-        />
-        <Typography variant='h3' className={classes.heading}>
-          {coin?.name}
-        </Typography>
+  if (!coin) {
+    return <CircularProgress color='success' />;
+  } else {
+    const {
+      image,
+      name,
+      description,
+      market_data,
+      categories,
+      market_cap_rank,
+    } = coin;
+    return (
+      <div className={classes.container}>
+        <div className={classes.sidebar}>
+          <img
+            src={image.large}
+            alt={name}
+            height='200'
+            style={{ marginBottom: 20 }}
+          />
+          <Typography variant='h3' className={classes.heading}>
+            {name}
+          </Typography>
 
-        <Typography variant='h5' className={classes.heading}>
-          {/* Current Price: ${coin?.market_data.current_price[aud]} */}
-          $50000
-        </Typography>
-        <Typography variant='h5' className={classes.heading}>
-          Rank:{coin?.market_cap_rank}
-        </Typography>
-        <Typography variant='h5' className={classes.heading}>
-          Market cap: 50000
-        </Typography>
-        <Typography variant='h5' className={classes.heading}>
-          Category:{coin?.categories}
-        </Typography>
-        <Typography variant='subtitle1' className={classes.description}>
-          {readMore
-            ? coin?.description.en
-            : `${coin?.description.en.substring(0, 200)}...`}
-          <Button onClick={() => setReadMore(!readMore)}>
-            {readMore ? 'show less' : '  read more'}
-          </Button>
-        </Typography>
+          <Typography variant='h5' className={classes.heading}>
+            Current Price: ${market_data.current_price.aud.toLocaleString()}
+          </Typography>
+          <Typography variant='h5' className={classes.heading}>
+            Rank:{market_cap_rank}
+          </Typography>
+          <Typography variant='h5' className={classes.heading}>
+            Market cap: ${market_data.market_cap.aud.toLocaleString()}
+          </Typography>
+          <Typography variant='h5' className={classes.heading}>
+            Category:{categories}
+          </Typography>
+          <Typography variant='subtitle1' className={classes.description}>
+            {readMore
+              ? showhtml(description.en)
+              : showhtml(`${description.en.substring(0, 200)}...`)}
+            <Button onClick={() => setReadMore(!readMore)}>
+              {readMore ? 'show less' : '  read more'}
+            </Button>
+          </Typography>
+        </div>
+        <CoinChart coin={coin} />
       </div>
-      <CoinChart coin={coin} />
-    </div>
-  );
+    );
+  }
 };
 
 export default SingleCoinDetails;

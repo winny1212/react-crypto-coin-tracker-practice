@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@mui/styles';
-
 import axios from 'axios';
+//import from material-ui
 import {
-  Grid,
+  Container,
   TableCell,
   CircularProgress,
   Typography,
-  TextField,
+  Pagination,
   TableBody,
   TableRow,
   TableHead,
@@ -16,10 +15,30 @@ import {
   Table,
   Paper,
 } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { ArrowDropUpIcon, ArrowDropDownIcon } from '@mui/icons-material';
+//get coin list API
 import { getCoinList } from '../agent';
-import { Pagination } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
+  container: {
+    textAlign: 'center',
+  },
+  table: {
+    width: '80%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  tableHead: {
+    backgroundColor: '#34ee34',
+  },
+  title: {
+    color: '#34ee34',
+    fontFamily: 'Urbanist',
+    fontWeight: 'bold',
+    padding: '0.8em',
+    cursor: 'pointer',
+  },
   row: {
     backgroundColor: '#16171a',
     cursor: 'pointer',
@@ -33,15 +52,19 @@ const useStyles = makeStyles((theme) => ({
 const CoinListTable = () => {
   const classes = useStyles();
   const history = useHistory();
+
+  //set initial state
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
+  //function for get coin list from API
   useEffect(() => {
     axios
       .get(getCoinList)
       .then((res) => {
+        setLoading(false);
         setCoins(res.data);
         // console.log(res.data);
       })
@@ -58,17 +81,19 @@ const CoinListTable = () => {
   };
 
   return (
-    <Grid style={{ textAlign: 'center' }}>
-      <Typography variant='h4' style={{ margin: 18 }}>
+    <Container style={{ textAlign: 'center' }}>
+      <Typography variant='h4' className={classes.title}>
         Cryptocurrency Prices by Market Cap
       </Typography>
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className={classes.table}>
         {loading ? (
           <CircularProgress color='success' />
         ) : (
+          // table import from material-ui
           <Table aria-label='simple table'>
-            <TableHead style={{ backgroundColor: '#cbcbcf' }}>
+            {/* head */}
+            <TableHead className={classes.tableHead}>
               <TableRow>
                 {['Coin', 'Price', '24h', 'Mkt Cap'].map((head) => (
                   <TableCell
@@ -78,7 +103,7 @@ const CoinListTable = () => {
                       fontFamily: 'Urbanist',
                     }}
                     key={head}
-                    // align={head === 'Coin' ? '' : 'right'}
+                    align={head === 'Coin' ? '' : 'right'}
                   >
                     {head}
                   </TableCell>
@@ -86,6 +111,7 @@ const CoinListTable = () => {
               </TableRow>
             </TableHead>
 
+            {/* body */}
             <TableBody>
               {coins.slice((page - 1) * 8, (page - 1) * 10 + 10).map((coin) => {
                 const rate = coin.price_change_percentage_24h;
@@ -95,6 +121,7 @@ const CoinListTable = () => {
                     className={classes.coin}
                     key={coin.name}
                   >
+                    {/* coin name and icon */}
                     <TableCell
                       component='th'
                       scope='coin'
@@ -121,10 +148,14 @@ const CoinListTable = () => {
                         <span style={{ color: 'darkgrey' }}>{coin.name}</span>
                       </div>
                     </TableCell>
+
+                    {/* coin price */}
                     <TableCell align='right'>
                       {console.log(coin.current_price)}
                       {coin.current_price.toFixed(2)}
                     </TableCell>
+
+                    {/* coin rate */}
                     <TableCell
                       align='right'
                       style={{
@@ -132,9 +163,11 @@ const CoinListTable = () => {
                         fontWeight: 500,
                       }}
                     >
-                      {rate && '+'}
+                      {rate > 0 ? '+' : ''}
                       {coin.price_change_percentage_24h.toFixed(2)}%
                     </TableCell>
+
+                    {/* coin market cap */}
                     <TableCell align='right'>
                       {coin.total_volume.toLocaleString()}M
                     </TableCell>
@@ -146,9 +179,11 @@ const CoinListTable = () => {
         )}
       </TableContainer>
 
+      {/* pagination */}
       <Pagination
-        count={(handleSearch()?.length / 10).toFixed(0)}
+        count={(coins.length / 10).toFixed(0)}
         style={{
+          backgroundColor: 'white',
           padding: 20,
           width: '100%',
           display: 'flex',
@@ -160,7 +195,7 @@ const CoinListTable = () => {
           window.scroll(0, 300);
         }}
       />
-    </Grid>
+    </Container>
   );
 };
 

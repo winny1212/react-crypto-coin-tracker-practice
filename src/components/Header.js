@@ -24,7 +24,7 @@ const Search = styled('div')(({ theme }) => ({
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(3),
     width: 'auto',
   },
 }));
@@ -72,7 +72,7 @@ function Header() {
   const id = open ? 'simple-popover' : undefined;
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar olor='transparent' position='static'>
+      <AppBar color='transparent' position='static'>
         <Toolbar>
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1 }}>
             Coin Desk

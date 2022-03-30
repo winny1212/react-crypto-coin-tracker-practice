@@ -127,6 +127,7 @@ const CoinListTable = () => {
                       </div>
                     </TableCell>
                     <TableCell align='right'>
+                      {console.log(coin.current_price)}
                       {coin.current_price.toFixed(2)}
                     </TableCell>
                     <TableCell

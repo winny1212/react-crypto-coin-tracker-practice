@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { HistoricalData } from '../agent';
 import { makeStyles } from '@mui/styles';
-import { CircularProgress, Typography } from '@mui/material';
+import {
+  CircularProgress,
+  Typography,
+  ButtonGroup,
+  Button,
+} from '@mui/material';
 
 import { Line } from 'react-chartjs-2';
 import dateOfChart from '../dataDayOfChart';
@@ -42,6 +47,22 @@ const CoinChart = ({ coin }) => {
         <CircularProgress color='success' />
       ) : (
         <>
+          {/* {dateOfChart.map(()=>{})} */}
+          <ButtonGroup variant='outlined' aria-label='outlined button group'>
+            {dateOfChart.map((day) => {
+              return (
+                <Button
+                  key={day.id}
+                  onClick={() => {
+                    setDays(day.value);
+                  }}
+                  selected={day.value === days}
+                >
+                  {day.label}
+                </Button>
+              );
+            })}
+          </ButtonGroup>
           <Line
             data={{
               labels: historyData.map((coin) => {

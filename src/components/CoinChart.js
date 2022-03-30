@@ -6,6 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { CircularProgress, Typography } from '@mui/material';
 
 import { Line } from 'react-chartjs-2';
+import dateOfChart from '../dataDayOfChart';
 
 const useStyles = makeStyles(() => ({
   container: {

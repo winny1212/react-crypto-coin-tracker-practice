@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import axios from 'axios';
 import { makeStyles, useTheme } from '@mui/styles';
-import { Typography } from '@mui/material';
+import { Typography, CircularProgress } from '@mui/material';
 
 import { getSingleCoin } from '../agent';
 import { Button } from '@mui/material';
@@ -71,6 +71,7 @@ const SingleCoinDetails = () => {
   //   };
   // }, []);
   // console.log(coin);
+  if (!coin) return <CircularProgress color='success' />;
   return (
     <div className={classes.container}>
       <div className={classes.sidebar}>

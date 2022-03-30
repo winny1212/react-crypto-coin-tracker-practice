@@ -28,7 +28,7 @@ const CoinChart = ({ coin }) => {
   //   console.log(coin.id);
   const fetchHistoryData = async () => {
     const { data } = await axios.get(HistoricalData(coin.id, days));
-
+    console.log(data);
     setHistoryData(data.prices);
   };
 
@@ -37,7 +37,42 @@ const CoinChart = ({ coin }) => {
   }, [days]);
   return (
     <div className={classes.container}>
-      {!historyData ? <CircularProgress color='success' /> : <></>}
+      {!historyData ? (
+        <CircularProgress color='success' />
+      ) : (
+        <>
+          <Line
+            data={{
+              labels: historyData.map((coin) => {
+                let date = new Date(coin[0]);
+                let time =
+                  date.getHours() > 12
+                    ? `${date.getHours() - 12}:${date.getMinutes()} PM`
+                    : `${date.getHours()}:${date.getMinutes()} AM`;
+                return days === 1 ? time : date.toLocaleDateString();
+              }),
+
+              datasets: [
+                {
+                  data: historyData.map((coin) => coin[1]),
+                  label: `Price ( Past ${days} Days ) in usd`,
+                  borderColor:
+                    coin.price_change_percentage_24h > 0
+                      ? '#008000'
+                      : '#ff0000',
+                },
+              ],
+            }}
+            options={{
+              elements: {
+                point: {
+                  radius: 1,
+                },
+              },
+            }}
+          />
+        </>
+      )}
     </div>
   );
 };

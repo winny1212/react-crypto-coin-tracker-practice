@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
+// import the components
 import Header from './components/Header';
 import SingleCoinDetails from './views/SingleCoinDetails';
 import Homepage from './views/Homepage';
@@ -8,14 +9,14 @@ import Homepage from './views/Homepage';
 const useStyles = makeStyles(() => ({
   container: {
     minHeight: '100vh',
-    backgroundColor: 'rgb(228, 228, 235)',
-    color: 'black',
+    backgroundColor: '#13161d ',
+    color: '#ffffff',
   },
 }));
 const App = () => {
   const classes = useStyles();
-
   return (
+    //header and routes
     <div className={classes.container}>
       <Header />
       <Switch>

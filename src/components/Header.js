@@ -1,19 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+//API import from material-ui
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, MenuItem } from '@mui/material';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Grid, Toolbar, Typography, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import Popover from '@mui/material/Popover';
+import { makeStyles } from '@mui/styles';
 
-import Button from '@mui/material/Button';
-import { Star } from '@mui/icons-material';
-
+//custom styling
+const useStyles = makeStyles(() => ({
+  logo: {
+    color: '#34ee34',
+    fontFamily: 'Urbanist',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+  },
+}));
+//search styling imported from material-ui
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -36,6 +38,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   pointerEvents: 'none',
   display: 'flex',
   alignItems: 'center',
+  color: '#34ee34',
   justifyContent: 'center',
 }));
 
@@ -43,7 +46,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -56,40 +58,42 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function Header() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+//component
+const Header = () => {
+  const classes = useStyles();
+  const history = useHistory();
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const [showFavorites, setShowFavorites] = useState(false);
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar color='transparent' position='static'>
-        <Toolbar>
-          <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1 }}>
-            Coin Desk
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder='Search…'
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <AppBar color='transparent' position='static'>
+      <Toolbar>
+        {/* coin desk link to the homepage */}
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Typography
+              variant='h5'
+              className={classes.logo}
+              onClick={() => history.push(`/`)}
+            >
+              Coin Desk
+            </Typography>
+          </Grid>
+
+          {/* search function*/}
+          <Grid item xs={8}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder='Search here…'
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+          </Grid>
+        </Grid>
+      </Toolbar>
+    </AppBar>
   );
-}
+};
 
 export default Header;

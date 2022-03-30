@@ -48,6 +48,7 @@ const CoinListTable = () => {
       .catch((error) => console.error('Error'));
   }, []);
 
+  //search function
   const handleSearch = () => {
     return coins.filter(
       (coin) =>
@@ -61,12 +62,6 @@ const CoinListTable = () => {
       <Typography variant='h4' style={{ margin: 18 }}>
         Cryptocurrency Prices by Market Cap
       </Typography>
-      <TextField
-        label='Search For a Crypto Currency..'
-        variant='outlined'
-        style={{ marginBottom: 20, width: '100%' }}
-        onChange={(e) => setSearch(e.target.value)}
-      />
 
       <TableContainer component={Paper}>
         {loading ? (

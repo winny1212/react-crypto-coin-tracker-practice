@@ -93,7 +93,7 @@ const SingleCoinDetails = () => {
           Rank:{coin?.market_cap_rank}
         </Typography>
         <Typography variant='h5' className={classes.heading}>
-          Market cap:
+          Market cap: 50000
         </Typography>
         <Typography variant='h5' className={classes.heading}>
           Category:{coin?.categories}

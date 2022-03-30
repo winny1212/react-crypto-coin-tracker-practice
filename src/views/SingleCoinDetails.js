@@ -1,10 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography } from '@mui/material';
-
+import parse from 'html-react-parser';
 import axios from 'axios';
 import { makeStyles, useTheme } from '@mui/styles';
+import { Typography } from '@mui/material';
 
 import { getSingleCoin } from '../agent';
 import { Button } from '@mui/material';

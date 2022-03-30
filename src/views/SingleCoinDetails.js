@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     fontWeight: 'bold',
     marginBottom: 20,
-    // fontFamily: 'Montserrat',
+    fontFamily: 'Urbanist',
   },
   description: {
     width: '100%',
-    // fontFamily: 'Montserrat',
+    fontFamily: 'Urbanist',
     padding: 25,
     paddingBottom: 15,
     paddingTop: 0,
@@ -81,6 +81,20 @@ const SingleCoinDetails = () => {
         />
         <Typography variant='h3' className={classes.heading}>
           {coin?.name}
+        </Typography>
+
+        <Typography variant='h5' className={classes.heading}>
+          {/* Current Price: ${coin?.market_data.current_price[aud]} */}
+          $50000
+        </Typography>
+        <Typography variant='h5' className={classes.heading}>
+          Rank:{coin?.market_cap_rank}
+        </Typography>
+        <Typography variant='h5' className={classes.heading}>
+          Market cap:
+        </Typography>
+        <Typography variant='h5' className={classes.heading}>
+          Category:{coin?.categories}
         </Typography>
         <Typography variant='subtitle1' className={classes.description}>
           {readMore

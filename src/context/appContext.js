@@ -18,6 +18,7 @@ const reducer = (state, action) => {
   }
 };
 
+//context wrapper function used for manage the state
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 

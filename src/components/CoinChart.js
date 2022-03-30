@@ -1,18 +1,16 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { HistoricalData } from '../agent';
+//material-ui
 import { makeStyles } from '@mui/styles';
-import {
-  CircularProgress,
-  Typography,
-  ButtonGroup,
-  Button,
-} from '@mui/material';
-
+import { CircularProgress, ButtonGroup, Button } from '@mui/material';
+//Line chart
 import { Line } from 'react-chartjs-2';
+//API
+import { HistoricalData } from '../agent';
 import dateOfChart from '../dataDayOfChart';
 
+//custome styling
 const useStyles = makeStyles(() => ({
   container: {
     width: '75%',
@@ -26,29 +24,36 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CoinChart = ({ coin }) => {
-  console.log(coin);
   const classes = useStyles();
 
+  //initial state
   const [historyData, setHistoryData] = useState();
   const [days, setDays] = useState(1);
-  //   console.log(coin.id);
+
+  //get historical data
   const fetchHistoryData = async () => {
     const { data } = await axios.get(HistoricalData(coin.id, days));
-    console.log(data);
     setHistoryData(data.prices);
   };
 
   useEffect(() => {
     fetchHistoryData();
   }, [days]);
+
   return (
+    //   if history data is not exist, return loading icon, or return the chart
     <div className={classes.container}>
       {!historyData ? (
         <CircularProgress color='success' />
       ) : (
         <>
-          {/* {dateOfChart.map(()=>{})} */}
-          <ButtonGroup variant='outlined' aria-label='outlined button group'>
+          {/* date period button group */}
+          <ButtonGroup
+            variant='outlined'
+            sx={{ my: '2' }}
+            size='small'
+            aria-label='outlined button group'
+          >
             {dateOfChart.map((day) => {
               return (
                 <Button
@@ -63,8 +68,10 @@ const CoinChart = ({ coin }) => {
               );
             })}
           </ButtonGroup>
+          {/* history data display chart : import from react-chartjs */}
           <Line
             data={{
+              //time/date display on x-axis
               labels: historyData.map((coin) => {
                 let date = new Date(coin[0]);
                 let time =
@@ -76,6 +83,7 @@ const CoinChart = ({ coin }) => {
 
               datasets: [
                 {
+                  // price display on y-axis
                   data: historyData.map((coin) => coin[1]),
                   label: `Price ( Past ${days} Days ) in usd`,
                   borderColor:

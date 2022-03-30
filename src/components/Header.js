@@ -5,6 +5,8 @@ import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Grid, Toolbar, Typography, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { makeStyles } from '@mui/styles';
+//import context for global state management
+import { useAppContext } from '../context/appContext';
 
 //custom styling
 const useStyles = makeStyles(() => ({
@@ -64,6 +66,14 @@ const Header = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  //destructure from context
+  const { search, handleSearch } = useAppContext();
+
+  //function for search input change
+  const handleChange = (e) => {
+    handleSearch(e.target.value);
+  };
+
   return (
     <AppBar color='transparent' position='static'>
       <Toolbar>
@@ -88,6 +98,8 @@ const Header = () => {
               <StyledInputBase
                 placeholder='Search here…'
                 inputProps={{ 'aria-label': 'search' }}
+                value={search}
+                onChange={handleChange}
               />
             </Search>
           </Grid>

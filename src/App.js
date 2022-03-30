@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
     color: '#ffffff',
   },
 }));
+
 const App = () => {
   const classes = useStyles();
   return (

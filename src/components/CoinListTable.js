@@ -19,6 +19,7 @@ import { makeStyles } from '@mui/styles';
 import { ArrowDropUpIcon, ArrowDropDownIcon } from '@mui/icons-material';
 //get coin list API
 import { getCoinList } from '../agent';
+import { useAppContext } from '../context/appContext';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -57,28 +58,35 @@ const CoinListTable = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState('');
-
-  //function for get coin list from API
-  useEffect(() => {
-    axios
-      .get(getCoinList)
-      .then((res) => {
-        setLoading(false);
-        setCoins(res.data);
-        // console.log(res.data);
-      })
-      .catch((error) => console.error('Error'));
-  }, []);
+  // const [search, setSearch] = useState('');
+  const { search } = useAppContext();
 
   //search function
   const handleSearch = () => {
+    console.log(coins);
     return coins.filter(
       (coin) =>
         coin.name.toLowerCase().includes(search) ||
         coin.symbol.toLowerCase().includes(search)
     );
   };
+  //function for get coin list from API
+  useEffect(() => {
+    if (search === '') {
+      axios
+        .get(getCoinList)
+        .then((res) => {
+          setLoading(false);
+          setCoins(res.data);
+          // console.log(res.data);
+        })
+        .catch((error) => console.error('Error'));
+    } else {
+      const ss = handleSearch();
+      setCoins(ss);
+      console.log(ss);
+    }
+  }, [search]);
 
   return (
     <Container style={{ textAlign: 'center' }}>
@@ -95,7 +103,7 @@ const CoinListTable = () => {
             {/* head */}
             <TableHead className={classes.tableHead}>
               <TableRow>
-                {['Coin', 'Price', '24h', 'Mkt Cap'].map((head) => (
+                {['Coin', 'Price ($)', '24h', 'Mkt Cap ($)'].map((head) => (
                   <TableCell
                     style={{
                       color: 'black',

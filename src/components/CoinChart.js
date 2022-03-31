@@ -50,6 +50,7 @@ const CoinChart = ({ coin }) => {
           {/* date period button group */}
           <ButtonGroup
             variant='outlined'
+            color='success'
             sx={{ my: '2' }}
             size='small'
             aria-label='outlined button group'

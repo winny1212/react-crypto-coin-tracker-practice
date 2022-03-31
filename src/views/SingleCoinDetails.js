@@ -1,33 +1,29 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import parse from 'html-react-parser';
 import axios from 'axios';
-import { makeStyles, useTheme } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import { Typography, CircularProgress } from '@mui/material';
 
 import { getSingleCoin } from '../agent';
 import { Button } from '@mui/material';
 import CoinChart from '../components/CoinChart';
 
+//custom style
 const useStyles = makeStyles((theme) => ({
   container: {
+    width: '100%',
     display: 'flex',
-    // [theme.breakpoints.down('md')]: {
-    //   flexDirection: 'column',
-    //   alignItems: 'center',
-    // },
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
-  sidebar: {
-    width: '30%',
-    // [theme.breakpoints.down('md')]: {
-    //   width: '100%',
-    // },
+  information: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: 25,
-    borderRight: '2px solid grey',
+    borderBottom: '2px solid grey',
   },
   heading: {
     fontWeight: 'bold',
@@ -35,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Urbanist',
   },
   description: {
+    fontSize: '1em',
     width: '100%',
     fontFamily: 'Urbanist',
     padding: 25,
@@ -42,43 +39,52 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0,
     textAlign: 'justify',
   },
+  marketData: {
+    textAlign: 'center',
+    padding: 25,
+    paddingTop: 10,
+    width: '100%',
+  },
+  marketInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    fontFamily: 'Urbanist',
+    color: '#34ee34',
+  },
 }));
 
 const SingleCoinDetails = () => {
   const classes = useStyles();
-  const theme = useTheme();
 
+  //get single coin url id
   const { id } = useParams();
-  const [coin, setCoin] = useState();
 
+  //set initial state
+  const [coin, setCoin] = useState();
   const [readMore, setReadMore] = useState(false);
 
+  //function for get single coin information
   const fetchCoin = async () => {
     const { data } = await axios.get(getSingleCoin(id));
 
     setCoin(data);
   };
-
   useEffect(() => {
     fetchCoin();
   }, []);
   console.log(coin);
 
+  //function for fix the coin description parse error
   function showhtml(htmlString) {
     var html = { __html: htmlString };
     return <div dangerouslySetInnerHTML={html}></div>;
   }
-  // useEffect(() => {
-  //   const { data } = async () => {
-  //     await axios.get(getSingleCoin(id));
 
-  //     setCoin(data);
-  //   };
-  // }, []);
-  // console.log(coin);
   if (!coin) {
     return <CircularProgress color='success' />;
   } else {
+    //destructure
     const {
       image,
       name,
@@ -89,38 +95,44 @@ const SingleCoinDetails = () => {
     } = coin;
     return (
       <div className={classes.container}>
-        <div className={classes.sidebar}>
+        {/* coin details */}
+        <div className={classes.information}>
           <img
             src={image.large}
             alt={name}
-            height='200'
+            height='60'
             style={{ marginBottom: 20 }}
           />
           <Typography variant='h3' className={classes.heading}>
             {name}
           </Typography>
 
-          <Typography variant='h5' className={classes.heading}>
-            Current Price: ${market_data.current_price.aud.toLocaleString()}
-          </Typography>
-          <Typography variant='h5' className={classes.heading}>
-            Rank:{market_cap_rank}
-          </Typography>
-          <Typography variant='h5' className={classes.heading}>
-            Market cap: ${market_data.market_cap.aud.toLocaleString()}
-          </Typography>
-          <Typography variant='h5' className={classes.heading}>
-            Category:{categories}
-          </Typography>
-          <Typography variant='subtitle1' className={classes.description}>
-            {readMore
-              ? showhtml(description.en)
-              : showhtml(`${description.en.substring(0, 200)}...`)}
-            <Button onClick={() => setReadMore(!readMore)}>
-              {readMore ? 'show less' : '  read more'}
-            </Button>
-          </Typography>
+          <div className={classes.marketData}>
+            <div className={classes.marketInfo}>
+              <Typography variant='h6' className={classes.heading}>
+                Rank:{market_cap_rank}
+              </Typography>
+              <Typography variant='h6' className={classes.heading}>
+                Category:{categories}
+              </Typography>
+              <Typography variant='h5' className={classes.heading}>
+                ${market_data.current_price.aud.toLocaleString()}
+              </Typography>
+            </div>
+
+            <Typography className={classes.description}>
+              {/* conditional description display based on read more or show less button */}
+              {readMore
+                ? showhtml(description.en)
+                : showhtml(`${description.en.substring(0, 200)} ......`)}
+              <Button color='success' onClick={() => setReadMore(!readMore)}>
+                {readMore ? 'show less' : '  read more'}
+              </Button>
+            </Typography>
+          </div>
         </div>
+
+        {/* line chart display*/}
         <CoinChart coin={coin} />
       </div>
     );

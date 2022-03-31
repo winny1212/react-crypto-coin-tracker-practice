@@ -127,7 +127,7 @@ const CoinListTable = () => {
                     <TableCell
                       style={{}}
                       key={head}
-                      align={head === 'Coin' ? '' : 'right'}
+                      align={head === 'Coin' ? 'left' : 'right'}
                     >
                       {head}
                     </TableCell>
@@ -208,7 +208,7 @@ const CoinListTable = () => {
       <Grid className={classes.pagination}>
         {/* 10 coins are displayed each page */}
         <Pagination
-          count={(coins.length / 10).toFixed(0)}
+          count={parseInt((coins.length / 10).toFixed(0))}
           onChange={(_, value) => {
             setPage(value);
             window.scroll(0, 300);

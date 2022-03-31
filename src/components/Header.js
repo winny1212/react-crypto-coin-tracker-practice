@@ -81,7 +81,7 @@ const Header = () => {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Typography
-              variant='h5'
+              variant='h6'
               className={classes.logo}
               onClick={() => history.push(`/`)}
             >

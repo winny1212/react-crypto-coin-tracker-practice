@@ -1,73 +1,56 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using the basic template.
+## Application URL
 
-## What's in the basic template?
-- It includes node-sass, and a style.scss (and removes all .css files)
-- It doesn't use serviceWorker
-- It replaces the react favicon with a flower of life icon
+https://winny-crypto-coin.netlify.app/
 
-## Available Scripts
+## GitHub repo:
 
-In the project directory, you can run:
+https://github.com/winny1212/react-crypto-coin-tracker-practice
 
-### `yarn start`
+## Application introduction
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Crypto coin is a hot topic now and especially last year the whole market was so crazy. That is the main reason I choose the coins API among a list of financial products API.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Three APIs used in this app
 
-### `yarn test`
+#### Get all coin list
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=80&page=1&sparkline=false
 
-### `yarn build`
+#### Get single coin
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+https://api.coingecko.com/api/v3/coins/${id}
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+#### Get single coin historical market data
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}
 
-### `yarn eject`
+## Some information about the files structure
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- At this app I didn't seperate the custom styling code in a file but leave them with the its component code. As I think it maybe easier for you reviewing. But I know in the real big project, we need to seperate the styling code and relative component code.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## What it is Home Decor and website preview
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Homepage
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  - _Coins' table_: User can view a bunch of coins' market data from the coin table
+  - _Search coin_: User can search their interested coins
+    ![homepage](./readmeDocs/homepage.png)
 
-## Learn More
+- Single coin page
+  - _View single coin details_
+  - _Data shows by the line chart during different time period_
+    ![detail](./readmeDocs/detail.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Some code snippet
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Method for calling API in useEffect
 
-### Code Splitting
+![API](./readmeDocs/API.jpeg)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+#### Manage global state by context method
 
-### Analyzing the Bundle Size
+![contextState](./readmeDocs/contextState.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+#### State hook
 
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![hook](./readmeDocs/hook.png)

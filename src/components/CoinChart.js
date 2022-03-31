@@ -38,6 +38,7 @@ const CoinChart = ({ coin }) => {
 
   useEffect(() => {
     fetchHistoryData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [days]);
 
   return (

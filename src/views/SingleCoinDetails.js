@@ -72,8 +72,8 @@ const SingleCoinDetails = () => {
   };
   useEffect(() => {
     fetchCoin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(coin);
 
   //function for fix the coin description parse error
   function showhtml(htmlString) {

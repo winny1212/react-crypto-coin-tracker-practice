@@ -103,6 +103,7 @@ const CoinListTable = () => {
       const searchValue = handleSearch();
       setCoins(searchValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   return (

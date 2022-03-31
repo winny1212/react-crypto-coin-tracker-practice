@@ -124,7 +124,7 @@ const SingleCoinDetails = () => {
               {/* conditional description display based on read more or show less button */}
               {readMore
                 ? showhtml(description.en)
-                : showhtml(`${description.en.substring(0, 200)} ......`)}
+                : showhtml(`${description.en.substring(0, 500)} ......`)}
               <Button color='success' onClick={() => setReadMore(!readMore)}>
                 {readMore ? 'show less' : '  read more'}
               </Button>

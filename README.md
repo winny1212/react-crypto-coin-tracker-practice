@@ -28,7 +28,7 @@ https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=$
 
 - At this app I didn't seperate the custom styling code in a file but leave them with the its component code. As I think it maybe easier for you reviewing. But I know in the real big project, we need to seperate the styling code and relative component code.
 
-## What it is Home Decor and website preview
+## What it is Crypto-coin-tracker and website preview
 
 - Homepage
 
